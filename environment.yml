@@ -1,0 +1,18 @@
+name: color_constancy
+channels:
+  - defaults
+dependencies:
+  - keras
+  - py-opencv
+  - scikit-learn
+  - tensorflow==2.0.0
+  - tqdm
+  - keras-preprocessing==1.0.9
+  - numpy
+  - statsmodels
+  - python=3.7
+  - matplotlib
+  - scikit-image
+  - pandas
+  - seaborn
+prefix: /home/icb/castelblanco/miniconda3/envs/color_constancy
