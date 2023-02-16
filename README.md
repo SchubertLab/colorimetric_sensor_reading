@@ -34,6 +34,6 @@ Methods for automated digital reading of colorimetric sensors in settings with p
 > ```
 > - Install dependencies
 > ```bash
-> conda env create -f enviornment.yml
+> conda env create -f environment.yml
 > ```
 
