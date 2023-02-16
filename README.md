@@ -9,7 +9,7 @@ Methods for automated digital reading of colorimetric sensors in settings with p
 > We implement image processing and deep-learning (DL) methods that correct for non-uniform illumination alterations and accurately read the target variable from the color response of the sensor.
 
 ## Repository
-1. [Dataset Generation](./src/data/)
+1. [Dataset](./src/data/)
 
 ── 1.1 [Dataset Generation](./src/data/make_dataset.py)
 
