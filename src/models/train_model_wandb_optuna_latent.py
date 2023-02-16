@@ -1,16 +1,12 @@
-import optuna
-from optuna.integration.wandb import WeightsAndBiasesCallback
-
 import os
 import cv2
-import datetime
+import wandb
+import optuna
 import numpy as np
 import pandas as pd
 import tensorflow as tf
 
-import wandb
 from wandb.keras import WandbCallback
-
 from sklearn.model_selection import train_test_split
 
 from models import load_latent_lum_chrom_reg_model
@@ -36,7 +32,7 @@ def objective(trial, custom_model, get_generator_function, custom_generator):
         ['mse', 'binary_crossentropy', 'ssim']
     )
 
-    CNN_DEPTH = trial.suggest_int("num_cnn_layers", 1, 2)
+    CNN_DEPTH = trial.suggest_int("num_cnn_layers", 1, 5)
     CNN_FILTERS = trial.suggest_int("cnn_filters", 50, 100)
     DENSE_NEURONS = trial.suggest_int("dense_neurons", 1e3, 1e5, log=True)
     DENSE_LAYERS = trial.suggest_int("dense_layers", 4, 8)
@@ -129,10 +125,6 @@ def objective(trial, custom_model, get_generator_function, custom_generator):
     # Train Val Split by ratio
     df_train_val = df_generators_filt[df_generators_filt['sensor_name'].isin([TRAIN_SENSORS[0], VAL_SENSORS[0]])]
     df_train, df_val = train_test_split(df_train_val, test_size=VAL_RATIO, random_state=2)
-
-    # # Train val split by sensor
-    # df_train = df_generators_filt[df_generators_filt['sensor_name'].isin(TRAIN_SENSORS)]
-    # df_val = df_generators_filt[df_generators_filt['sensor_name'].isin(VAL_SENSORS)]
 
     dfs_train_val = [df_train, df_val]
 
@@ -341,7 +333,7 @@ if __name__ == "__main__":
     SAVE_MODEL = False
     PATH_SAVE_MODEL = 'models/03_11_2022_ae_reg/'
     MODEL_NAME = 'model.{epoch:02d}.h5'
-    N_TRIALS = 30
+    N_TRIALS = 100
 
     OPTUNA_STUDY_NAME = 'denoising-lat-reg-v0'
 
@@ -373,5 +365,5 @@ if __name__ == "__main__":
     for key, value in trial.params.items():
         print("    {}: {}".format(key, value))
 
-    df_optimization = study.trials_dataframe()  # attrs=("number", "value", "params", "state")
+    df_optimization = study.trials_dataframe()
     df_optimization.to_csv('optuna_trials/' + OPTUNA_STUDY_NAME + '.csv')

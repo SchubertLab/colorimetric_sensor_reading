@@ -37,7 +37,7 @@ def objective(trial, custom_model, get_generator_function, custom_generator):
     )
 
     if WITH_CNN_ENCODER:
-        CNN_DEPTH = trial.suggest_int("num_cnn_layers", 1, 2)
+        CNN_DEPTH = trial.suggest_int("num_cnn_layers", 1, 5)
         CNN_FILTERS = trial.suggest_int("cnn_filters", 50, 300)
     else:
         CNN_DEPTH = 0
@@ -277,7 +277,7 @@ if __name__ == "__main__":
     SAVE_MODEL = False
     PATH_SAVE_MODEL = 'models/2023_01_16_only_reg/'
     MODEL_NAME = 'model.{epoch:02d}.h5'
-    N_TRIALS = 30
+    N_TRIALS = 100
 
     OPTUNA_STUDY_NAME = 'only-reg-v1'
 
